@@ -1,13 +1,27 @@
 #include "handler.h"
+#define ROTATION_SPEED		100
+#define WHEELBASE_LENGTH	230
 #define CURRENT_FIRMWARE_MAJOR_VERSION  1
 #define CURRENT_FIRMWARE_MINOR_VERSION  2
 ControllerInfo PIDConf;
-
+extern int lSpeed,rSpeed;
 void OnBaseControl(BaseControl *data) {
 	//do control
-	LOG("OnBaseControl:Speed->%d,Radius->%d", data->speed, data->radius);
-//	Speed=data->speed;
-//	Angle=data->radius;
+	SIGNED_BYTE_2 radius=(SIGNED_BYTE_2)(data->radius);
+	SIGNED_BYTE_2 speed=(SIGNED_BYTE_2)(data->speed);
+	if(0==radius){
+		rSpeed=lSpeed=speed;
+	}else if(radius<=1&&radius>=-1)
+	{
+		SIGNED_BYTE_1 sign=speed>0?1:-1;
+		rSpeed=sign*ROTATION_SPEED;
+		lSpeed=-rSpeed;
+	}else{
+		SIGNED_BYTE_2 radius_abs=radius>0?radius:-radius;
+		SIGNED_BYTE_1 sign=radius*speed>0?1:-1;
+		rSpeed= speed*(radius_abs+sign*WHEELBASE_LENGTH/2)/radius_abs;
+		lSpeed= speed*(radius_abs-sign*WHEELBASE_LENGTH/2)/radius_abs;
+	}
 }
 void OnRequestExtra(RequestExtra *data) {
 	LOG("OnRequestExtra");

@@ -8,23 +8,31 @@ Current cr;
 DockingIR ir;
 GeneralPurposeInput gi;
 RawDataOf3DGyro_2 g3d;
-BYTE_2 Speed=1;
-BYTE_2 Angle=1;
+int lSpeed,rSpeed;
+float gyro;
 void TestFeedbackFilling(void)
 {
+	static unsigned long time=0;
 	bs.timestamp=millis();
 	bs.battery=150;
 	bs.bumper=0;
 	bs.charger=100;
 	bs.cliff=0;
-	bs.leftEncoder=millis()*Speed;
-	bs.rigtEncoder=millis()*Speed;
-	bs.overcurrentFlags=200;
+	bs.leftEncoder+=((long)(millis()-time))*lSpeed/10;
+	bs.rigtEncoder+=((long)(millis()-time))*rSpeed/10;
+	bs.overcurrentFlags=2000;
 	bs.rigtPWM=22;
 	bs.leftPWM=33;
 	bs.wheelDrop=0;
-	is.angle=177;
-	is.angleRate=166;
+	gyro+=(rSpeed-lSpeed)/1000.0;
+	if(gyro>=30000){
+		gyro-=36000;
+	}
+	else if(gyro<=-30000){
+		gyro+=36000;
+	}
+	is.angle=(short)gyro;
+	is.angleRate=1;
 	cr.leftMotor=1;
 	cr.rightMotor=1;
 	cs.leftCliffSensor=0;
@@ -51,4 +59,5 @@ void TestFeedbackFilling(void)
 	FeedbackPackets.p_GeneralPurposeInput=&gi;
 	FeedbackPackets.p_InertialSensorData=&is;
 	FeedbackPackets.p_RawDataOf3DGyro_2=&g3d;
+	time=millis();
 }

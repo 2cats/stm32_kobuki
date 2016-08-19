@@ -61,16 +61,18 @@ void KobukiProcessing(void);
 #define FLAG_SET_LED2_RED				0x0400
 #define FLAG_SET_LED2_GREEN				0x0800
 
-
 #define BIT_MASK(val,mask)			((val)&(mask))
 
 //#define SETN_BIT(val,nth)			((val)|=(1<<(nth)))
 //#define UNSETN_BIT(val,nth)			((val)&=(~(1<<(nth))))
 
-
 typedef unsigned char BYTE_1;
 typedef unsigned short BYTE_2;
 typedef unsigned int BYTE_4;
+
+typedef char SIGNED_BYTE_1;
+typedef short SIGNED_BYTE_2;
+typedef int SIGNED_BYTE_4;
 
 typedef struct {
 	BYTE_1 header;
@@ -229,7 +231,7 @@ typedef struct {
 	BYTE_2 x;
 	BYTE_2 y;
 	BYTE_2 z;
-}Byte2Vector3;
+} Byte2Vector3;
 typedef struct {
 	BYTE_1 frameId;
 	BYTE_1 constant_6;
