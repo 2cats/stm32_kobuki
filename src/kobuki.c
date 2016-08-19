@@ -43,7 +43,7 @@ DefineAdaper(FirmwareVersion, 11);
 DefineAdaper(GeneralPurposeInput, 16);
 DefineAdaper(UniqueDeviceIDentifier, 19);
 DefineAdaper(ControllerInfo, 21);
-
+DefineAdaper(RawDataOf3DGyro_2,13)
 /*
  * Recv Routine State Machine
  */
@@ -122,6 +122,7 @@ void UploadFeedbackPackets() {
 	ADD_FEEDBACK(CliffSensorData);
 	ADD_FEEDBACK(Current);
 	ADD_FEEDBACK(GeneralPurposeInput);
+	ADD_FEEDBACK(RawDataOf3DGyro_2);
 	if (FeedbackPackets.__uploadNeeded)
 		Upload();
 	memset(&FeedbackPackets, 0, sizeof(FeedbackPackets));
@@ -174,3 +175,11 @@ void KobukiInit() {
 	UartbrInit(115200);
 }
 
+
+UniqueDeviceIDentifier GetUUID() {
+	UniqueDeviceIDentifier uuid;
+	uuid.uuid0 = *(vu32*) (0x1ffff7e8);
+	uuid.uuid1 = *(vu32*) (0x1ffff7ec);
+	uuid.uuid2 = *(vu32*) (0x1ffff7f0);
+	return uuid;
+}

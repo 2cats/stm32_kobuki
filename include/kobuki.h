@@ -225,7 +225,17 @@ typedef struct {
 	BYTE_4 dGain;
 }EndDataTypeDef(ControllerInfo)
 ;
-
+typedef struct {
+	BYTE_2 x;
+	BYTE_2 y;
+	BYTE_2 z;
+}Byte2Vector3;
+typedef struct {
+	BYTE_1 frameId;
+	BYTE_1 constant_6;
+	Byte2Vector3 rawGyroData[2];
+}EndDataTypeDef(RawDataOf3DGyro_2)
+;
 typedef struct {
 	BasicSensorData *p_BasicSensorData;
 	DockingIR *p_DockingIR;
@@ -233,8 +243,10 @@ typedef struct {
 	CliffSensorData *p_CliffSensorData;
 	Current *p_Current;
 	GeneralPurposeInput *p_GeneralPurposeInput;
+	RawDataOf3DGyro_2 *p_RawDataOf3DGyro_2;
 	BYTE_1 __uploadNeeded;
 } FeedbackPacketsDef;
 extern FeedbackPacketsDef FeedbackPackets;
+UniqueDeviceIDentifier GetUUID(void);
 #pragma pop
 #endif
