@@ -29,12 +29,12 @@
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release/First.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="First"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release/stm32_kobuki.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="stm32_kobuki"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/First"/>
+<listEntry value="/stm32_kobuki"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
