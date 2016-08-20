@@ -10,12 +10,12 @@ void OnBaseControl(BaseControl *data) {
 		rSpeed=lSpeed=speed;
 	}else if(radius<=1&&radius>=-1)
 	{
-		SIGNED_BYTE_1 sign=speed>0?1:-1;
+		int sign=speed>0?1:-1;
 		rSpeed=sign*ROTATION_SPEED;
 		lSpeed=-rSpeed;
 	}else{
 		SIGNED_BYTE_2 radius_abs=radius>0?radius:-radius;
-		SIGNED_BYTE_1 sign=radius*speed>0?1:-1;
+		int sign=radius*speed>0?1:-1;
 		rSpeed= speed*(radius_abs+sign*WHEELBASE_LENGTH/2)/radius_abs;
 		lSpeed= speed*(radius_abs-sign*WHEELBASE_LENGTH/2)/radius_abs;
 	}
