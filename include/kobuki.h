@@ -247,7 +247,7 @@ typedef struct {
 } FeedbackPacketsDef;
 extern FeedbackPacketsDef FeedbackPackets;
 UniqueDeviceIDentifier GetUUID(void);
-void KobukiInit();
+void KobukiInit(void);
 void ResetUpload(void);
 void Upload(void);
 void KobukiProcessing(void);

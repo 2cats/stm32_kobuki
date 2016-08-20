@@ -20,7 +20,7 @@ void TestFeedbackFilling(void)
 	bs.cliff=0;
 	bs.leftEncoder+=((long)(millis()-time))*lSpeed/10;
 	bs.rigtEncoder+=((long)(millis()-time))*rSpeed/10;
-	bs.overcurrentFlags=2000;
+	bs.overcurrentFlags=200;
 	bs.rigtPWM=22;
 	bs.leftPWM=33;
 	bs.wheelDrop=0;
