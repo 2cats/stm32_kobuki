@@ -21,10 +21,10 @@ void OnBaseControl(BaseControl *data) {
 	}
 }
 void OnRequestExtra(RequestExtra *data) {
-	LOG("OnRequestExtra");
 	FirmwareVersion fv;
 	HardwareVersion hv;
 	UniqueDeviceIDentifier uuid;
+	LOG("OnRequestExtra");
 	if (BIT_MASK(data->requestFlags, FLAG_REQUEST_HARDWARE_VERSION)) {
 		ResetUpload();
 		hv.major = HARDWARE_VERSION_MAJOR;
@@ -51,13 +51,13 @@ void OnRequestExtra(RequestExtra *data) {
 	}
 }
 void OnGeneralPurposeOutput(GeneralPurposeOutput *data) {
-	LOG("OnGeneralPurposeOutput");
 	unsigned char led1 =
 			BIT_MASK(data->digitalOutputFlags,
 					FLAG_SET_LED1_RED)||BIT_MASK(data->digitalOutputFlags,FLAG_SET_LED1_GREEN);
 	unsigned char led2 =
 			BIT_MASK(data->digitalOutputFlags,
 					FLAG_SET_LED2_RED)||BIT_MASK(data->digitalOutputFlags,FLAG_SET_LED2_GREEN);
+	LOG("OnGeneralPurposeOutput");
 	LOG("led1:%d\n", led1);
 	LOG("led2:%d\n", led2);
 }
