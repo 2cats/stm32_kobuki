@@ -6,7 +6,16 @@
 # ifndef _KOBUKI_H_
 # define _KOBUKI_H_
 #include <string.h>
+#define FIRMWARE_VERSION_MAJOR 1
+#define FIRMWARE_VERSION_MINOR 2
+#define FIRMWARE_VERSION_PATCH 3
 
+#define HARDWARE_VERSION_MAJOR 3
+#define HARDWARE_VERSION_MINOR 1
+#define HARDWARE_VERSION_PATCH 4
+
+#define ROTATION_SPEED			100		//Rotation Speed
+#define WHEELBASE_LENGTH		230		//Diameter
 /*
  *  Protocol Specification : https://yujinrobot.github.io/kobuki/doxygen/enAppendixProtocolSpecification.html
  *	Protocol Fix:
@@ -92,7 +101,7 @@ typedef struct {
 extern int wec;
 //Declare/Define Function Groups
 #define DeclareAdaper(DataType)				void Add##DataType(DataType *data);
-#define EndDataTypeDef(DataType)			DataType;DeclareAdaper(DataType);extern const BYTE_1 HEADER(DataType);
+#define EndDataTypeDef(DataType)			DataType;DeclareAdaper(DataType);extern const BYTE_1 HEADER(DataType);void On##DataType(DataType*);
 #define DefineAdaper(DataType,Header)		void Add##DataType(DataType *data)\
 {\
 	int dataLength=sizeof(DataType);\
@@ -101,8 +110,7 @@ extern int wec;
 	memcpy(__sendPackage.subPayloads+__sendPackage.length,data,dataLength);\
 	__sendPackage.length+=dataLength;\
 };\
-const BYTE_1 HEADER(DataType)=Header;\
-void __attribute__((weak)) On##DataType(){}
+const BYTE_1 HEADER(DataType)=Header;
 
 typedef struct {
 	BYTE_2 speed;

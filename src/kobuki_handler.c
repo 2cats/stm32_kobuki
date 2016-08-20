@@ -1,12 +1,9 @@
-#include "handler.h"
-#define ROTATION_SPEED		100
-#define WHEELBASE_LENGTH	230
-#define CURRENT_FIRMWARE_MAJOR_VERSION  1
-#define CURRENT_FIRMWARE_MINOR_VERSION  2
+#include <tools.h>
+#include "kobuki.h"
+
 ControllerInfo PIDConf;
 extern int lSpeed,rSpeed;
 void OnBaseControl(BaseControl *data) {
-	//do control
 	SIGNED_BYTE_2 radius=(SIGNED_BYTE_2)(data->radius);
 	SIGNED_BYTE_2 speed=(SIGNED_BYTE_2)(data->speed);
 	if(0==radius){
@@ -30,18 +27,18 @@ void OnRequestExtra(RequestExtra *data) {
 	UniqueDeviceIDentifier uuid;
 	if (BIT_MASK(data->requestFlags, FLAG_REQUEST_HARDWARE_VERSION)) {
 		ResetUpload();
-		hv.major = 3;
-		hv.minor = 1;
-		hv.patch = 4;
+		hv.major = HARDWARE_VERSION_MAJOR;
+		hv.minor = HARDWARE_VERSION_MINOR;
+		hv.patch = HARDWARE_VERSION_PATCH;
 		AddHardwareVersion(&hv);
 		Upload();
 
 	}
 	if (BIT_MASK(data->requestFlags, FLAG_REQUEST_FIRMWARE_VERSION)) {
 		ResetUpload();
-		fv.major = CURRENT_FIRMWARE_MAJOR_VERSION;
-		fv.minor = CURRENT_FIRMWARE_MINOR_VERSION;
-		fv.patch = 4;
+		fv.major = FIRMWARE_VERSION_MAJOR;
+		fv.minor = FIRMWARE_VERSION_MINOR;
+		fv.patch = FIRMWARE_VERSION_PATCH;
 		AddFirmwareVersion(&fv);
 		Upload();
 
@@ -70,9 +67,16 @@ void OnSetControllerGain(SetControllerGain *data) {
 	PIDConf.iGain = data->iGain;
 	PIDConf.dGain = data->dGain;
 }
-void OnGetControllerGain() {
+void OnGetControllerGain(GetControllerGain *data) {
 	LOG("OnGetControllerGain");
 	ResetUpload();
 	AddControllerInfo(&PIDConf);
 	Upload();
 }
+void OnSound(Sound* data){
+	LOG("OnSound");
+}
+void OnSoundSequence(SoundSequence* data){
+	LOG("OnSoundSequence");
+}
+
