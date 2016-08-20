@@ -1,11 +1,16 @@
 /*
  * Created By Ence Wang , Summer 2016
  * Protocol Specification : http://yujinrobot.github.io/kobuki/doxygen/enAppendixProtocolSpecification.html
+ * Changes:
+ *	 Current	:	Total -> 2
  *
  */
 # ifndef _KOBUKI_H_
 # define _KOBUKI_H_
 #include <string.h>
+
+#define HEADER_0						0xAA	//Protocol Magic
+#define HEADER_1						0x55    //Protocol Magic
 #define FIRMWARE_VERSION_MAJOR 1
 #define FIRMWARE_VERSION_MINOR 2
 #define FIRMWARE_VERSION_PATCH 3
@@ -16,52 +21,42 @@
 
 #define ROTATION_SPEED			100		//Rotation Speed
 #define WHEELBASE_LENGTH		230		//Diameter
-/*
- *  Protocol Specification : https://yujinrobot.github.io/kobuki/doxygen/enAppendixProtocolSpecification.html
- *	Protocol Fix:
- *	 Current	:	Total -> 2
- */
+
+#define MAX_SUBPAYLOAD_LENGTH			0xff	//Max (all)data size(bytes) of one package
 /*
  *	API
  *
- *	1. Uploading
- */
-
-void KobukiInit();
-
-void ResetUpload(void);
-//BaseControl bs;
-//fill bs...
-//AddBaseControl(&bs);
-void Upload(void);
-void KobukiProcessing(void);
-
-/*
+ *	1.  Uploading
+ *	Example:
+ *		FirmwareVersion fv;
+ *		ResetUpload();
+ *		fv.major = FIRMWARE_VERSION_MAJOR;
+ *		fv.minor = FIRMWARE_VERSION_MINOR;
+ *		fv.patch = FIRMWARE_VERSION_PATCH;
+ *		AddFirmwareVersion(&fv);
+ *		Upload();
+ *
  *	2. Receiving
  *  Example:
- *  	1. Register Callback For Each DataType
+ *  	1. Fill CallBacks
  *		void OnBaseControlHandler(BaseControl *baseControl)
  *		{
  *			//your code here
  *		}
- *		OnBaseControl=OnBaseControlHandler;
- *		//Other Types ...
  *		2. Feeding
  *		while(1)
  *		{
  *			KobukiProcessing();
  *		}
- *
- *
- *
+ *  *3. Add New A SubPackage Type
+ *  Example:
+ *		1).[.h] typedef struct {BYTE_1 field0;} EndDataTypeDef(MyType);
+ *		2).[.c] DefineAdaper(MyType, 0x31);
  */
 
 #pragma push
-#pragma pack (1)							//!This is important(no align)
+#pragma pack (1)								//!This is important(no align) for 'sizeof(DataType)'
 
-#define HEADER_0					0xAA	//Protocol Magic
-#define HEADER_1					0x55    //Protocol Magic
-#define MAX_SUBPAYLOAD_LENGTH		0xff	//Max (all)data size(bytes) of one package
 #define FLAG_REQUEST_HARDWARE_VERSION	0x01
 #define FLAG_REQUEST_FIRMWARE_VERSION	0x02
 #define FLAG_REQUEST_UUID				0x08
@@ -205,12 +200,6 @@ typedef struct {
 	BYTE_1 unused;
 }EndDataTypeDef(FirmwareVersion)
 ;
-//typedef struct {
-//	BYTE_1 patch;
-//	BYTE_1 minor;
-//	BYTE_1 major;
-//	BYTE_1 unused;
-//}EndDataTypeDef(RawDataOf3DGyro);
 typedef struct {
 	BYTE_2 digitalInput;
 	BYTE_2 analogInputCh0;
@@ -258,5 +247,9 @@ typedef struct {
 } FeedbackPacketsDef;
 extern FeedbackPacketsDef FeedbackPackets;
 UniqueDeviceIDentifier GetUUID(void);
+void KobukiInit();
+void ResetUpload(void);
+void Upload(void);
+void KobukiProcessing(void);
 #pragma pop
 #endif
