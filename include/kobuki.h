@@ -1,10 +1,15 @@
+/*******************************************************************************
+ * Copyright (C) 2016 Ence Wang
+ *
+ * MIT License
+ *******************************************************************************/
+
 /*
- * Created By Ence Wang , Summer 2016
  * Protocol Specification : http://yujinrobot.github.io/kobuki/doxygen/enAppendixProtocolSpecification.html
  * Changes:
  *	 Current	:	Total -> 2
- *
  */
+
 # ifndef _KOBUKI_H_
 # define _KOBUKI_H_
 #include <string.h>
