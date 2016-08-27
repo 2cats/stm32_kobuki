@@ -28,6 +28,7 @@
 #define WHEELBASE_LENGTH		230		//Diameter
 
 #define MAX_SUBPAYLOAD_LENGTH			0xff	//Max (all)data size(bytes) of one package
+#define UPLOAD_INTERVAL			20		//ms
 /*
  *	API
  *
@@ -43,20 +44,25 @@
  *
  *	2. Receiving
  *  Example:
- *  	1. Fill CallBacks
+ *  	1). Fill CallBacks
  *		void OnBaseControlHandler(BaseControl *baseControl)
  *		{
  *			//your code here
  *		}
- *		2. Feeding
+ *		2). Feeding
  *		while(1)
  *		{
  *			KobukiProcessing();
  *		}
+ *
  *  *3. Add New A SubPackage Type
  *  Example:
  *		1).[.h] typedef struct {BYTE_1 field0;} EndDataTypeDef(MyType);
  *		2).[.c] DefineAdaper(MyType, 0x31);
+ *
+ *	(4).Useful Functions:
+ *		1).	UniqueDeviceIDentifier GetUUID(void);
+ *		2). [ void KobukiDoBeforeUpload(void) ] with weak attribute , can be overridden by user to do some extra work before every upload
  */
 
 #pragma push

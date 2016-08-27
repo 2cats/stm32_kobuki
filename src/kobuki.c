@@ -137,7 +137,7 @@ void __attribute__ ((weak)) KobukiDoBeforeUpload(void){}
 
 void KobukiProcessing() {
 	static unsigned long time = 0;
-	if (millis() - time > 20) {
+	if (millis() - time > UPLOAD_INTERVAL) {
 		KobukiDoBeforeUpload();
 		UploadFeedbackPackets();
 		time = millis();
