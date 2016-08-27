@@ -133,9 +133,12 @@ void UploadFeedbackPackets() {
 		Upload();
 	memset(&FeedbackPackets, 0, sizeof(FeedbackPackets));
 }
+void __attribute__ ((weak)) KobukiDoBeforeUpload(void){}
+
 void KobukiProcessing() {
 	static unsigned long time = 0;
 	if (millis() - time > 20) {
+		KobukiDoBeforeUpload();
 		UploadFeedbackPackets();
 		time = millis();
 	}
