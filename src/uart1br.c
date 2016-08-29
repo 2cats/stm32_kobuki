@@ -1,4 +1,4 @@
-#include "uartbr.h"
+#include <uart1br.h>
 //串口1环型缓存器
 /*************!WARNING!******************/
 /*
@@ -8,13 +8,11 @@
 /************INTERFACE*****************/
 /*
 2014/4/3
-	new Function : uart_init_BR
 	Example:
-		USARTBufReceieverTypeDef USARTBufReceiever;
-		uart_init_BR(115200,&USARTBufReceiever);
-		if(USARTBufReceiever.getAvaliableNum()>0)
+		Uart1brInit(115200)'
+		if(Uart1brGetAvaliableNum()>0)
 		{
-			tmp=USARTBufReceiever.getByte();
+			tmp=Uart1brGetByte();
 			//printf("%c",tmp);
 		}
 */
@@ -24,16 +22,16 @@ unsigned char __defaultBuf[USART_BUFSIZE];
 static unsigned  int __start;
 //Functions
 /*********************************/
-u8 UartbrGetByte(void)
+u8 Uart1brGetByte(void)
 {
 	 u8 tmp=__defaultBuf[__start++];
 	 __start=__start%USART_BUFSIZE;
 	return tmp;
 }
-void UartbrGetBytes(u8 *dat,unsigned int num)
+void Uart1brGetBytes(u8 *dat,unsigned int num)
 {
 	unsigned int i,end;
-	if(UartbrGetAvaliableNum()<num)return;
+	if(Uart1brGetAvaliableNum()<num)return;
 	end=USART_BUFSIZE-DMA1_Channel5->CNDTR;
 	end=end>__start?end:end+USART_BUFSIZE;
 	for(i=__start;i<end;i++)
@@ -42,7 +40,7 @@ void UartbrGetBytes(u8 *dat,unsigned int num)
 	}
 }
 
-unsigned int UartbrGetAvaliableNum(void)
+unsigned int Uart1brGetAvaliableNum(void)
 {
 	unsigned int end=USART_BUFSIZE-DMA1_Channel5->CNDTR;
 	if(end==__start)
@@ -50,7 +48,7 @@ unsigned int UartbrGetAvaliableNum(void)
 	end=end>__start?end:end+USART_BUFSIZE;
 	return end-__start;
 }
-void __uartbrEnableReceieve(void)
+void __uart1brEnableReceieve(void)
 {
 	DMA_InitTypeDef DMA_InitStructure; 
 	NVIC_InitTypeDef NVIC_InitStructure;
@@ -76,20 +74,20 @@ void __uartbrEnableReceieve(void)
 	DMA_ITConfig(DMA1_Channel5,DMA_IT_TC,ENABLE );
 	USART_DMACmd(USART1,USART_DMAReq_Rx,ENABLE);
 
-	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel5_IRQn;  //TIM3中断
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级2级
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;  //从优先级0级
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
-	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器 
-	DMA_Cmd(DMA1_Channel5,ENABLE);//??DMA
+	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel5_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	DMA_Cmd(DMA1_Channel5,ENABLE);
 }
 
 
-void UartbrInit(u32 bound)
+void Uart1brInit(u32 bound)
 {
-	uart_init(bound);
+	USARTInit(USART1,bound,0);
 	__start=0;
-	__uartbrEnableReceieve();
+	__uart1brEnableReceieve();
 }
 //IQR
 /*********************************/

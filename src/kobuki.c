@@ -4,10 +4,10 @@
  * MIT License
  *******************************************************************************/
 
+#include <uart1br.h>
+#include <usart.h>
 #include "kobuki.h"
-#include "usart.h"
 #include "millis.h"
-#include "uartbr.h"
 
 /*
  * Public Global Variables
@@ -23,8 +23,8 @@ Package __recvPackage;
  * USART Sender Definition
  */
 
-#define SendBytes 	usart_send_bytes
-#define SendByte 	usart_send_byte
+#define SendBytes 	USART1SendBytes
+#define SendByte 	USART1SendByte
 
 /*
  * Command Packets
@@ -142,8 +142,8 @@ void KobukiProcessing() {
 		UploadFeedbackPackets();
 		time = millis();
 	}
-	if (UartbrGetAvaliableNum() > 0) {
-		unsigned char val = UartbrGetByte();
+	if (Uart1brGetAvaliableNum() > 0) {
+		unsigned char val = Uart1brGetByte();
 		int shift = 0;
 		if (__KobukiProcessing(val)) {
 			while (1) {
@@ -181,7 +181,7 @@ void Upload() {
 void KobukiInit() {
 	MILLIS_Init();
 	memset(&FeedbackPackets, 0, sizeof(FeedbackPackets));
-	UartbrInit(115200);
+	Uart1brInit(115200);
 }
 
 

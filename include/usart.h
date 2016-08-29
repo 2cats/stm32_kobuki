@@ -2,12 +2,16 @@
 #define __USART_H
 #include "stdio.h"
 #include "sys.h"
+#include "cbuf.h"
+void USARTInit(USART_TypeDef* USARTX, uint32_t BaudRate, char enable_rxit);
+void USARTSendBytes(USART_TypeDef *usart,const unsigned char *ch,int count);
+void USARTSendByte(USART_TypeDef *usart,char c);
+void USARTPrint(USART_TypeDef *usart,char *str);
+void USARTPrintln(USART_TypeDef *usart,u8 *str);
+void USARTPrintf(USART_TypeDef *usart,char *fmt, ...);
+unsigned char USARTRecvChar(USART_TypeDef *usart);
+int USARTScanf(USART_TypeDef *usart,const char *fmt, ...);//End of line： 0x0d,0x0a
 
-#define EN_USART1_RX 			0		//使能（1）/禁止（0）串口1接收
-//如果想串口中断接收，请不要注释以下宏定义
-void uart_init(u32 bound);
-void usart_send_bytes(const unsigned char *ch,int count);
-void usart_send_byte(char c);
 #endif
 
 
