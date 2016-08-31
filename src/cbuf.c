@@ -1,25 +1,11 @@
+/*******************************************************************************
+ * Copyright (C) 2016 Ence Wang
+ *
+ * MIT License
+ *******************************************************************************/
 #include "cbuf.h"
 /*
 Cbuf : 环形缓冲
-	初始化：										void CBuf_Init(CBuf*cb)
-	添加数据：									void CBuf_Add(CBuf*cb,unsigned char val)  					 //CBuf_AddM和CBuf_Add相同，只不过用宏定义实现，省去了子函数调用的开销
-	取出数据(先入先出)：				unsigned char CBuf_Pop(CBuf*cb)
-	取出数据(同上但不删除)：		unsigned char CBuf_Get(CBuf*cb,int start)						//start是数据位置的偏移量
-	获得可用数据长度：					unsigned char CBuf_Ava(CBuf*cb)
-
-Example:
-
-	Cbuf  cirBuf;
-	CBuf_Init(&cirBuf);
-	CBUF_ADDM(cirBuf,'a');
-	CBUF_ADDM(cirBuf,'b');
-	CBUF_ADDM(cirBuf,'c');
-	uchar x=CBuf_Pop(&cirBuf);				//x='a' ('a'最先被添加故最先被取出)
-	int ava=CBuf_Ava(&cirBuf);				//ava=2
-	x=CBuf_Get(&cirBuf,0);						//x='b' (ava=2)
-	
-
-	
 */
 void CBufInit(CBuf*cb)//初始化
 {
@@ -50,6 +36,7 @@ unsigned char CBufGet(CBuf*cb,int start)//获取缓存区里的一个字节，�
 	}
 	return val;
 }
+
 //CBuf_ADDM和CBuf_Add相同，只不过用宏定义实现，省去了子函数调用的开销
 //void CBufAdd(CBuf*cb,unsigned char val)
 //{

@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (C) 2016 Ence Wang
+ *
+ * MIT License
+ *******************************************************************************/
 #ifndef _CBUF_H
 #define _CBUF_H
 
@@ -17,4 +22,5 @@ int CBufAva(CBuf*cb);
 unsigned char CBufPop(CBuf*cb);
 //void CBufAdd(CBuf*cb,unsigned char val);
 unsigned char CBufGet(CBuf*cb,int start);
+#define  CBufClear CBufInit
 #endif

@@ -178,10 +178,10 @@ void Upload() {
 	SendByte(__sendPackage.checksum);
 	ResetUpload();
 }
-void KobukiInit() {
+void KobukiInit(unsigned int bound) {
 	MILLIS_Init();
 	memset(&FeedbackPackets, 0, sizeof(FeedbackPackets));
-	Uart1brInit(115200);
+	Uart1brInit(bound);
 }
 
 

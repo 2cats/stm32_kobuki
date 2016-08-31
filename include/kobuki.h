@@ -26,9 +26,10 @@
 
 #define ROTATION_SPEED			100		//Rotation Speed
 #define WHEELBASE_LENGTH		230		//Diameter
-
+#define WHEEL_DIAMETER			148
 #define MAX_SUBPAYLOAD_LENGTH			0xff	//Max (all)data size(bytes) of one package
 #define UPLOAD_INTERVAL			20		//ms
+#define PI						3.14159265358
 /*
  *	API
  *
@@ -258,7 +259,7 @@ typedef struct {
 } FeedbackPacketsDef;
 extern FeedbackPacketsDef FeedbackPackets;
 UniqueDeviceIDentifier GetUUID(void);
-void KobukiInit(void);
+void KobukiInit(unsigned int  bound);
 void ResetUpload(void);
 void Upload(void);
 void KobukiProcessing(void);

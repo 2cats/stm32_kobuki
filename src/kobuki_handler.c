@@ -5,12 +5,15 @@
  *******************************************************************************/
 #include <tools.h>
 #include "kobuki.h"
+#include "motor.h"
+#define MMS2RPM(mms) (mms*100.0*60/(2*PI)/(WHEEL_DIAMETER/2))
 
 ControllerInfo PIDConf;
-extern int lSpeed,rSpeed;
+int lSpeed,rSpeed;
 void OnBaseControl(BaseControl *data) {
 	SIGNED_BYTE_2 radius=(SIGNED_BYTE_2)(data->radius);
 	SIGNED_BYTE_2 speed=(SIGNED_BYTE_2)(data->speed);
+	//LOG("r:%d,s:%d",radius,speed);
 	if(0==radius){
 		rSpeed=lSpeed=speed;
 	}else if(radius<=1&&radius>=-1)
@@ -20,16 +23,22 @@ void OnBaseControl(BaseControl *data) {
 		lSpeed=-rSpeed;
 	}else{
 		SIGNED_BYTE_2 radius_abs=radius>0?radius:-radius;
-		int sign=radius*speed>0?1:-1;
+		int sign=radius>0?1:-1;
 		rSpeed= speed*(radius_abs+sign*WHEELBASE_LENGTH/2)/radius_abs;
 		lSpeed= speed*(radius_abs-sign*WHEELBASE_LENGTH/2)/radius_abs;
 	}
+	//LOG("##r:%d,l:%d",rSpeed,lSpeed);
+	rSpeed=MMS2RPM(rSpeed);
+	lSpeed=-MMS2RPM(lSpeed);
+	//LOG("r:%d,l:%d",rSpeed,lSpeed);
+	USARTPrintf(leftMotor.usart,"V%d\x0d",lSpeed);
+	USARTPrintf(rightMotor.usart,"V%d\x0d",rSpeed);
 }
 void OnRequestExtra(RequestExtra *data) {
 	FirmwareVersion fv;
 	HardwareVersion hv;
 	UniqueDeviceIDentifier uuid;
-	LOG("OnRequestExtra");
+	//LOG("OnRequestExtra");
 	if (BIT_MASK(data->requestFlags, FLAG_REQUEST_HARDWARE_VERSION)) {
 		ResetUpload();
 		hv.major = HARDWARE_VERSION_MAJOR;
@@ -67,21 +76,21 @@ void OnGeneralPurposeOutput(GeneralPurposeOutput *data) {
 	LOG("led2:%d\n", led2);
 }
 void OnSetControllerGain(SetControllerGain *data) {
-	LOG("OnSetControllerGain");
+	//LOG("OnSetControllerGain");
 	PIDConf.pGain = data->pGain;
 	PIDConf.iGain = data->iGain;
 	PIDConf.dGain = data->dGain;
 }
 void OnGetControllerGain(GetControllerGain *data) {
-	LOG("OnGetControllerGain");
+	//LOG("OnGetControllerGain");
 	ResetUpload();
 	AddControllerInfo(&PIDConf);
 	Upload();
 }
 void OnSound(Sound* data){
-	LOG("OnSound");
+	//LOG("OnSound");
 }
 void OnSoundSequence(SoundSequence* data){
-	LOG("OnSoundSequence");
+	//LOG("OnSoundSequence");
 }
 
