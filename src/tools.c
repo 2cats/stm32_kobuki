@@ -50,6 +50,7 @@ int atollmod(const char* pstr,int mod) {
 	}
 	//check sign
 	if (*pstr == '-') {
+		pstr++;
 		Integer_sign = -1;
 	}
 	if (*pstr == '+') {

@@ -27,10 +27,10 @@ void OnBaseControl(BaseControl *data) {
 		rSpeed= speed*(radius_abs+sign*WHEELBASE_LENGTH/2)/radius_abs;
 		lSpeed= speed*(radius_abs-sign*WHEELBASE_LENGTH/2)/radius_abs;
 	}
-	//LOG("##r:%d,l:%d",rSpeed,lSpeed);
+	LOG("##r:%d,l:%d",rSpeed,lSpeed);
 	rSpeed=MMS2RPM(rSpeed);
 	lSpeed=-MMS2RPM(lSpeed);
-	//LOG("r:%d,l:%d",rSpeed,lSpeed);
+	LOG("r:%d,l:%d",rSpeed,lSpeed);
 	USARTPrintf(leftMotor.usart,"V%d\x0d",lSpeed);
 	USARTPrintf(rightMotor.usart,"V%d\x0d",rSpeed);
 }
