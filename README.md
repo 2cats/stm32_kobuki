@@ -2,7 +2,7 @@
 
 ## Introduction
 This the embedded side implement for [kobuki_driver]( https://github.com/yujinrobot/kobuki_core/tree/indigo/kobuki_driver). The Protocol Specification can be found [HERE](https://yujinrobot.github.io/kobuki/doxygen/enAppendixProtocolSpecification.html).
-The porject now constains basic control logic as an example of usage.
+The porject now contains basic control logic as an example of usage.
 The main principle of implementing this protocol library is to keep the API both **simple** and **safe**.
 
 ## Documentation
